@@ -38,7 +38,11 @@ function createRobot(coordinates, direction) {
     },
     instructions: (stringInstructions) => {
       // función para recibir una serie de instrucciones Ejm: "RAALAL"
-      // En este metodo se va crear 
+      for (let i of stringInstructions){
+        if(!'RLA'.includes(i)){
+          return 'Invalid secuence'
+        }
+      }
     }
   }
 }

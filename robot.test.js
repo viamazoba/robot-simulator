@@ -21,9 +21,13 @@ describe('Verification initial conditions Robot', () => {
 	
 	});
 	
-	// test('Should return error for invalid secuence', () => {
-		
-	// });
+	test('Should return error for invalid secuence', () => {
+		const expectMessage = 'Invalid secuence'
+		const robot = createRobot([6,3], 'East')
+		const actualMessage = robot.instructions('RAE')
+
+		expect(expectMessage).toBe(actualMessage)
+	});
 	
 	// test('Should return success creation Robot', () => {
 		
