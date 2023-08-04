@@ -4,22 +4,49 @@ function createRobot(coordinates, direction) {
   const directions = ['North', 'East', 'South', 'West'] 
 
   function initialVerification(){
-    try{
 
-      if(x>10 || y >10 || x<0 || y<0){
-        throw new Error('Invalid position');
-      }
+    if(x>10 || y >10 || x<0 || y<0){
+      throw new Error('Invalid position');
+    }
 
-      if(!directions.includes(orientation)){
-        throw new Error('Invalid direction');
-      }
+    if(!directions.includes(orientation)){
+      throw new Error('Invalid direction');
     }
-    catch(error){
-      message = error.message
-    }
+
+
+    return 'Success creation Robot'
+    
+  }
+  
+  try{
+    
+    message = initialVerification(x,y)
+
+  }
+  catch(error){
+
+    message = error.message
   }
 
-  initialVerification(x,y)
+  changeDirection = (instruction) => {
+    
+    let indexDirections = directions.indexOf(orientation)
+    indexDirections = instruction === 'R' ? indexDirections + 1 : indexDirections - 1
+    if(indexDirections > 3){
+      orientation = 'North'
+    }else if(indexDirections < 0){
+      orientation = 'West'
+    }else{
+      orientation = directions[indexDirections]
+    }
+
+    // console.log('Sale de la función', orientation)
+  }
+
+  advance = () => {
+    y = orientation === 'North'? y + 1: (orientation === 'South'? y - 1 : y)
+    x = orientation === 'East'? x + 1: (orientation === 'West'? x - 1 : x)
+  }
 
   return {
     message,
@@ -27,27 +54,27 @@ function createRobot(coordinates, direction) {
       
       return { coordinates: [x, y], orientation }
     },
-    advance: () => {
-      // función para avanzar
-    },
-    turnRight: () => {
-      // función para girar a la derecha
-    },
-    turnLeft: () => {
-      // función para girar a la izquierda
-    },
     instructions: (stringInstructions) => {
       // función para recibir una serie de instrucciones Ejm: "RAALAL"
       for (let i of stringInstructions){
         if(!'RLA'.includes(i)){
           return 'Invalid secuence'
         }
+
+        if(i === 'R' || i === 'L'){
+          changeDirection(i)
+        }else{
+          advance()
+        }
+
+        if(x>10 || y>10 || x<0 || y<0){
+          return 'Error secuence position robot out of limits'
+        }
+        
       }
     }
   }
 }
 
+
 module.exports = createRobot
-
-
-//console.log(createRobot([2,11], "North").message);

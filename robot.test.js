@@ -29,19 +29,32 @@ describe('Verification initial conditions Robot', () => {
 		expect(expectMessage).toBe(actualMessage)
 	});
 	
-	// test('Should return success creation Robot', () => {
-		
-	// });
+	test('Should return Success creation Robot', () => {
+		const expectMessage = 'Success creation Robot'
+		const robot = createRobot([6,3], 'West')
+		const actualMessage = robot.message
+
+		expect(expectMessage).toBe(actualMessage)
+	});
 });
 
 
 
-// describe('Verification movement Robot', () => {
-// 	test('Should return error for walk out of grid', () => {
+describe('Verification movement Robot', () => {
 
-// 	});
+	test('Should return Error secuence position robot out of limits', () => {
+		const expectMessage = 'Error secuence position robot out of limits'
+		const robot = createRobot([2,10],'South')
+		const actualMessage = robot.instructions('RRA')
+		expect(expectMessage).toBe(actualMessage)
 
-// 	test('Should return last position on the grid', () => {
+	});
 
-// 	})
-// });
+	test('Should return last position on the grid', () => {
+		const expectPosition = { coordinates: [4, 8], orientation: 'South' }
+		const robot = createRobot([4,10], 'North')
+		robot.instructions('RRAA')
+
+		expect(expectPosition).toEqual(robot.getPosition())
+	})
+});
